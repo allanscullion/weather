@@ -1,0 +1,14 @@
+{
+  "name": "weather_stats",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node weather_stats"
+  },
+  "dependencies": {
+    "cheerio": "0.17.0",
+    "request": "2.40.0",
+    "mysql": "2.4.*",
+    "moment": "2.8.1"
+  }
+}
