@@ -1,0 +1,64 @@
+extends layout
+
+block scripts
+    script.
+        $(function () {
+            $.getJSON('/series/compare_avg/#{loc_id1}/#{loc_id2}', function(data) {
+            
+                $('#container').highcharts({
+                
+                    chart: {
+                        type: 'spline',
+                        zoomType: 'x'
+                    },
+                    
+                    title: {
+                        text: 'Average temp comparison'
+                    },
+                
+                    xAxis: {
+                        type: 'datetime'
+                    },
+                    
+                    yAxis: {
+                        title: {
+                            text: 'Temperature (°C)'
+                        }
+                    },
+                
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true,
+                        valueSuffix: '°C'
+                    },
+                    
+                    legend: {
+                        enabled: true
+                    },
+                
+                    series: [{
+                        name: data.series1.name,
+                        data: data.series1.data
+                    }, {
+                        name: data.series2.name,
+                        data: data.series2.data
+                    }, {
+                        name: data.series1ma.name,
+                        data: data.series1ma.data
+                    }, {
+                        name: data.series2ma.name,
+                        data: data.series2ma.data
+                    }]
+                
+                });
+            });
+        });
+
+block content
+    h1= title
+    p Range Chart: #{title}
+
+    script(src='/javascripts/highcharts/highcharts.js')
+    script(src='/javascripts/highcharts/modules/exporting.js')
+
+    #container(style="min-width: 310px; height: 400px; margin: 0 auto")

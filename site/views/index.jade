@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+  p Please select a #{title} chart
+  ul#chart_list
+  li
+    a(href="/compare_avg/MK/GNK") Compare Average Temperatures - MK to GNK
+  li
+    a(href="/compare_highs/MK/GNK") Compare High Temperatures - MK to GNK
+  li
+    a(href="/compare_range/MK/GNK") Compare Temperature Ranges - MK to GNK
+  li
+    a(href="/range/MK") Temp range - MK
+  li
+    a(href="/range/GNK") Temp range - GNK
+  li
+    a(href="/differences/MK/GNK") Temperature Differences - MK vs GNK
