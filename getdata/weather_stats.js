@@ -56,9 +56,9 @@ function get_weatherdata(station, callback) {
 	    var tempfeel = $("#curFeel").find(".wx-value").text();
 	    var windspeed = $("#windCompassSpeed").find(".wx-value").text();
 
-	    var maingrid = $("#cc2");
-	    var hum = maingrid.children().find('span[data-variable="humidity"]').find(".wx-value").text();
-	    var rain = maingrid.children().find('span[data-variable="precip_today"]').find(".wx-value").text();
+        var maingrid = $("#current .show-for-large-up");
+        var hum = maingrid.find('span[data-variable="humidity"]').find(".wx-value").text();
+        var rain = maingrid.find('span[data-variable="precip_today"]').find(".wx-value").text();
 
 
 	    if (stationname.length > 0) {
@@ -76,7 +76,7 @@ function get_weatherdata(station, callback) {
 		    	rainfall: rain
 		    }
 
-		    //save_weatherdata(d);
+		    save_weatherdata(d);
 
 		} 
 		else {
