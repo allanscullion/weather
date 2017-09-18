@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
 });
 
 //
-// GET: Teperature Range Data for a given ID
+// GET: Temperature Range Data for a given ID
 //
 router.get('/range/:id1', function(req, res) {
 	res.render('range', { title: 'Temperature Range', loc_id: req.params.id1 });
@@ -50,6 +50,13 @@ router.get('/compare_range/:id1/:id2', function(req, res) {
 router.get('/differences/:id1/:id2', function(req, res) {
 	res.render('differences', { title: 'Compare Temperature Differences', 
 			loc_id1: req.params.id1, loc_id2: req.params.id2 });
+});
+
+//
+// GET: Rainfall Data for a given ID
+//
+router.get('/rainfall/:id1', function(req, res) {
+	res.render('rainfall', { title: 'Average Rainfall', loc_id: req.params.id1 });
 });
 
 //
@@ -137,6 +144,50 @@ router.get('/series/range/:shortcode', function(req, res) {
 
 });
 
+
+/* Get average rainfall for a location */
+router.get('/series/rainfall/:shortcode', function(req, res) {
+
+	var locations = [ { shortcode: req.params.shortcode, id: 0, name: 'Unknown' } ];
+	async.series([
+		//
+		// Before we do anything, translate the location names
+		//
+		function(callback) {
+			getLocationDetails(locations, function(){
+				callback();
+			});
+		},
+		function(callback) {
+			pool.getConnection(function(err, connection) {
+				var sql = 'select date(snaptime) as temp_date, \
+							max(rainfall) as total_rainfall \
+                            from vw_weather_data \
+							where locationid = ? \
+							group by temp_date;';
+
+				//console.log(sql);
+				connection.query(sql, [locations[0].id], function(error, rows, fields) {
+					res.writeHead(200, {'Content-Type': 'text/plain'});
+
+					var series = {
+						total_data: { name: locations[0].name + ' Daily Rainfall', data: [] }
+					}
+
+					for (index = 0; index < rows.length; index++) {
+						var row = rows[index];
+						var dtvalue = new Date(row.temp_date).valueOf();
+						series.total_data.data.push([ dtvalue, row.total_rainfall ]);
+					}
+		    		res.end(JSON.stringify(series));
+		    		callback();
+				});
+				connection.release();
+			});
+		}
+	]);
+
+});
 
 
 /* Get the average temp of 2 locations for comparison */
