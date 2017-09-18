@@ -3,7 +3,7 @@ var cheerio = require('cheerio');
 var moment = require('moment');
 var mysql = require('mysql');
 
-var root_url = "http://www.wunderground.com/q/"
+var root_url = "http://www.wunderground.com/weather/"
 
 
 ///
@@ -92,12 +92,14 @@ stations =
 [
 	{
 		location: "Milton Keynes",
-		url: "zmw:00000.12.03557?MR=1",
+		//url: "zmw:00000.12.03557?MR=1",
+		url: "gb/shenley-church-end/ISHENLEY7",
 		id: 2
 	},
 	{
 		location: "Greenock",
-		url: "zmw:00000.10.03138?MR=1",
+		//url: "zmw:00000.10.03138?MR=1",
+		url: "gb/greenock/IIVCGREE2",
 		id: 1
 	}
 ];
